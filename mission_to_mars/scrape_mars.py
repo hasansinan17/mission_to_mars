@@ -7,7 +7,7 @@ from splinter import Browser
 
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
-    executable_path = {'executable_path': 'chromedriver.exe'}
+    executable_path = {'executable_path': 'C://Users//sinan//Downloads//chromedriver_win32//chromedriver.exe'}
     return Browser("chrome", **executable_path, headless=False)
 
 # In[2]:
@@ -15,16 +15,16 @@ def scrape():
     #create a python dictionary to hold the results
     mars_dict = {}
     # initialize the browser
-    browser = init_browser()
+    Browser = init_browser()
     
     ### NASA Mars New
     # Visit the following URL 
     url = "https://mars.nasa.gov/news/"
-    browser.visit(url)
+    Browser.visit(url)
     time.sleep(1)
 
     #scrape the mars site into soup
-    html = browser.html
+    html = Browser.html
     soup = BeautifulSoup(html, 'html.parser')
 
     latest = soup.find('ul', class_='item_list')
@@ -41,15 +41,15 @@ def scrape():
     ### JPL Mars Space Images - Featured Image
     # Visit the following URL
     url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
-    browser.visit(url)
+    Browser.visit(url)
 
     #use splinter to navigate thru the pages
     time.sleep(5)
-    browser.click_link_by_partial_text('FULL IMAGE')
+    Browser.click_link_by_partial_text('FULL IMAGE')
     time.sleep(5)
-    browser.click_link_by_partial_text('more info')
+    Browser.click_link_by_partial_text('more info')
 
-    html = browser.html
+    html = Browser.html
     soup = BeautifulSoup(html, 'html.parser')
 
     #find full resulution image
@@ -72,8 +72,8 @@ def scrape():
 
     ### Mars Weather
     url = 'https://twitter.com/marswxreport?lang=en'
-    browser.visit(url)  
-    html = browser.html
+    Browser.visit(url)  
+    html = Browser.html
     soup = BeautifulSoup(html, 'html.parser')
     latest_tweet = soup.find('div', class_='js-tweet-text-container')
     mars_weather = latest_tweet.find('p').text
@@ -95,11 +95,11 @@ def scrape():
     ### Mars Hemispheres
     mars_image_urls = []
     url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
-    browser.visit(url)
+    Browser.visit(url)
 
     #cerberus hemisphere
-    browser.click_link_by_partial_text('Cerberus Hemisphere')
-    html = browser.html
+    Browser.click_link_by_partial_text('Cerberus Hemisphere')
+    html = Browser.html
     soup = BeautifulSoup(html, 'html.parser')
     download_link = soup.find('div', class_='downloads').a['href']
     cerberus = {
@@ -110,9 +110,9 @@ def scrape():
     mars_image_urls.append(cerberus)
 
     ## go back to the main page
-    browser.click_link_by_partial_text('Back')
-    browser.click_link_by_partial_text('Schiaparelli Hemisphere')
-    html = browser.html
+    Browser.click_link_by_partial_text('Back')
+    Browser.click_link_by_partial_text('Schiaparelli Hemisphere')
+    html = Browser.html
     soup = BeautifulSoup(html, 'html.parser')
     download_link = soup.find('div', class_='downloads').a['href']
     Schiaparelli = {
@@ -123,9 +123,9 @@ def scrape():
     mars_image_urls.append(Schiaparelli)
 
 
-    browser.click_link_by_partial_text('Back')
-    browser.click_link_by_partial_text('Syrtis Major Hemisphere')
-    html = browser.html
+    Browser.click_link_by_partial_text('Back')
+    Browser.click_link_by_partial_text('Syrtis Major Hemisphere')
+    html = Browser.html
     soup = BeautifulSoup(html, 'html.parser')
     download_link = soup.find('div', class_='downloads').a['href']
     Syrtis = {
@@ -134,8 +134,8 @@ def scrape():
     }
     mars_image_urls.append(Syrtis)
 
-    browser.click_link_by_partial_text('Back')
-    browser.click_link_by_partial_text('Valles Marineris Hemisphere')
+    Browser.click_link_by_partial_text('Back')
+    Browser.click_link_by_partial_text('Valles Marineris Hemisphere')
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
     download_link = soup.find('div', class_='downloads').a['href']
@@ -148,7 +148,7 @@ def scrape():
     mars_dict["hemisphere_img_urls"] = mars_image_urls
     
     # Close the browser after scraping
-    browser.quit()
+    Browser.quit()
     
     #return results
     return mars_dict
